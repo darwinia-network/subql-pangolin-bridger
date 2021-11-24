@@ -1,17 +1,27 @@
-type StarterEntity @entity {
 
-  id: ID! #id is a required field
+type Block @entity {
+  id: ID!
 
-  field1: Int!
+  number: Int
+  timestamp: Date
+  parentHash: String
+  specVersion: Int
+}
 
-  field2: String #filed2 is an optional field
+type ScheduleAuthoritiesChangeEvent @entity {
+  id: ID!
+  message: String!
 
-  field3: BigInt
+  timestamp: Date
+  block: Block
+}
 
-  field4: Date
+type MMRRootSignedEvent @entity {
+  id: ID!
+  block_number: Int!
+  mmr_root: String!
+  signatures: String!
 
-  field5: Boolean
-
-
-
+  timestamp: Date
+  block: Block
 }

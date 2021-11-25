@@ -1,5 +1,11 @@
 import {FastEvent} from '../helpers';
-import {MMRRootSignedEvent, Signature} from '../types';
+import {
+  AuthoritiesChangeSignedEvent,
+  MMRRootSignedEvent,
+  ScheduleAuthoritiesChangeEvent,
+  ScheduleMMRRootEvent,
+  Signature
+} from '../types';
 
 export async function storeMMRRootSignedEvent(event: FastEvent) {
   /*
@@ -38,6 +44,8 @@ export async function storeMMRRootSignedEvent(event: FastEvent) {
 
     const signature = new Signature(id);
     signature.eventId = event.id;
+    signature.eventModule = event.section;
+    signature.eventName = event.method;
     signature.account = account;
     signature.relayAuthoritySignature = relayAuthoritySignature;
 
@@ -45,4 +53,59 @@ export async function storeMMRRootSignedEvent(event: FastEvent) {
     ix += 1;
   }
 
+}
+
+export async function storeScheduleMMRRootEvent(event: FastEvent) {
+  const data = event.data;
+  const eventBlockNumber = data[0].toString();
+
+  const _event = new ScheduleMMRRootEvent(event.id);
+  _event.atBlockNumber = event.blockNumber;
+  _event.eventBlockNumber = Number(eventBlockNumber);
+
+  _event.timestamp = event.timestamp;
+  await _event.save();
+}
+
+export async function storeScheduleAuthoritiesChange(event: FastEvent) {
+  const data = event.data;
+
+  const _event = new ScheduleAuthoritiesChangeEvent(event.id);
+  _event.message = data[0].toString();
+
+  _event.timestamp = event.timestamp;
+  await _event.save();
+}
+
+export async function storeAuthoritiesChangeSigned(event: FastEvent) {
+  const data = event.data;
+
+  const term = Number(data[0].toString());
+  const newAuthorities = data[1].toJSON() as Array<string>;
+  const _signatures = data[2].toJSON() as [string, string][];
+
+
+  const _event = new AuthoritiesChangeSignedEvent(event.id);
+  _event.term = term;
+  _event.newAuthorities = newAuthorities;
+
+  _event.timestamp = event.timestamp;
+  await _event.save();
+
+  let ix = 0;
+  for (const item of _signatures) {
+    const account = item[0];
+    const relayAuthoritySignature = item[1];
+    const id = `${event.id}-${ix}`;
+
+    const signature = new Signature(id);
+    signature.eventId = event.id;
+    signature.eventModule = event.section;
+    signature.eventName = event.method;
+    signature.account = account;
+    signature.relayAuthoritySignature = relayAuthoritySignature;
+
+    await signature.save();
+    ix += 1;
+  }
 }

@@ -8,14 +8,6 @@ type Block @entity {
   specVersion: Int
 }
 
-type ScheduleAuthoritiesChangeEvent @entity {
-  id: ID!
-  message: String!
-
-  timestamp: Date
-  block: Block
-}
-
 type MMRRootSignedEvent @entity {
   id: ID!
 
@@ -29,8 +21,39 @@ type MMRRootSignedEvent @entity {
 
 type Signature @entity {
   id: ID!
+
+  eventModule: String!
+  eventName: String!
+
   account: String!
   relayAuthoritySignature: String!
 
   event: MMRRootSignedEvent
+}
+
+type ScheduleMMRRootEvent @entity {
+  id: ID!
+
+  atBlockNumber: Int!
+  eventBlockNumber: Int!
+
+  timestamp: Date
+}
+
+type ScheduleAuthoritiesChangeEvent @entity {
+  id: ID!
+
+  message: String!
+
+  timestamp: Date
+}
+
+type AuthoritiesChangeSignedEvent @entity {
+  id: ID!
+
+  term: Int!
+  newAuthorities: [String]!
+  signatures: [Signature]! @derivedFrom(field: "event")
+
+  timestamp: Date
 }

@@ -347,5 +347,12 @@ dataSources:
           filter:
             - module: ethereumRelayAuthorities
               method: MMRRootSigned
+            - module: ethereumRelayAuthorities
+              method: ScheduleMMRRoot
+            - module: ethereumRelayAuthorities
+              method: ScheduleAuthoritiesChange
+            - module: ethereumRelayAuthorities
+              method: AuthoritiesChangeSigned
+
         - handler: handleCall
           kind: substrate/CallHandler

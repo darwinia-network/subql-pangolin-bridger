@@ -1,5 +1,4 @@
 # Query recent mmr root signed events
-
 {
 	mMRRootSignedEvents(first: 5) {
     nodes {
@@ -12,6 +11,8 @@
         nodes {
           account
           relayAuthoritySignature
+          eventModule
+          eventName
         }
       }
     }

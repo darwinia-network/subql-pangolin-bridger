@@ -36,7 +36,7 @@ export class FastEvent {
   }
 
   get data() {
-    return this.event.event.data.toString();
+    return this.event.event.data;
   }
 
   get extrinsicHash() {

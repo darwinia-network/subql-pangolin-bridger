@@ -18,10 +18,19 @@ type ScheduleAuthoritiesChangeEvent @entity {
 
 type MMRRootSignedEvent @entity {
   id: ID!
-  block_number: Int!
-  mmr_root: String!
-  signatures: String!
+
+  atBlockNumber: Int!
+  eventBlockNumber: Int!
+  mmrRoot: String!
+  signatures: [Signature]! @derivedFrom(field: "event")
 
   timestamp: Date
-  block: Block
+}
+
+type Signature @entity {
+  id: ID!
+  account: String!
+  relayAuthoritySignature: String!
+
+  event: MMRRootSignedEvent
 }

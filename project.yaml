@@ -345,7 +345,7 @@ dataSources:
         - handler: handleEvent
           kind: substrate/EventHandler
           filter:
-            module: ethereumRelayAuthorities
-            method: MMRRootSigned
+            - module: ethereumRelayAuthorities
+              method: MMRRootSigned
         - handler: handleCall
           kind: substrate/CallHandler

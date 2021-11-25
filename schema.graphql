@@ -14,7 +14,7 @@ type MMRRootSignedEvent @entity {
   atBlockNumber: Int!
   eventBlockNumber: Int!
   mmrRoot: String!
-  signatures: [Signature]! @derivedFrom(field: "event")
+  signatures: [Signature]! @derivedFrom(field: "eventMMRRootSigned")
 
   timestamp: Date
 }
@@ -28,7 +28,8 @@ type Signature @entity {
   account: String!
   relayAuthoritySignature: String!
 
-  event: MMRRootSignedEvent
+  eventMMRRootSigned: MMRRootSignedEvent
+  eventAuthoritiesChangeSigned: AuthoritiesChangeSignedEvent
 }
 
 type ScheduleMMRRootEvent @entity {
@@ -53,7 +54,7 @@ type AuthoritiesChangeSignedEvent @entity {
 
   term: Int!
   newAuthorities: [String]!
-  signatures: [Signature]! @derivedFrom(field: "event")
+  signatures: [Signature]! @derivedFrom(field: "eventAuthoritiesChangeSigned")
 
   timestamp: Date
 }

@@ -43,7 +43,7 @@ export async function storeMMRRootSignedEvent(event: FastEvent) {
     const id = `${event.id}-${ix}`;
 
     const signature = new Signature(id);
-    signature.eventId = event.id;
+    signature.eventMMRRootSignedId = event.id;
     signature.eventModule = event.section;
     signature.eventName = event.method;
     signature.account = account;
@@ -99,7 +99,7 @@ export async function storeAuthoritiesChangeSigned(event: FastEvent) {
     const id = `${event.id}-${ix}`;
 
     const signature = new Signature(id);
-    signature.eventId = event.id;
+    signature.eventAuthoritiesChangeSignedId = event.id;
     signature.eventModule = event.section;
     signature.eventName = event.method;
     signature.account = account;

@@ -2,6 +2,28 @@ specVersion: 0.0.1
 description: Pangolin network
 repository: https://github.com/darwinia-network/subql-pangolin-bridger
 schema: ./schema.graphql
+dataSources:
+  - name: main
+    kind: substrate/Runtime
+    startBlock: 1405750
+    mapping:
+      handlers:
+        - handler: handleBlock
+          kind: substrate/BlockHandler
+        - handler: handleEvent
+          kind: substrate/EventHandler
+          filter:
+            - module: ethereumRelayAuthorities
+              method: MMRRootSigned
+            - module: ethereumRelayAuthorities
+              method: ScheduleMMRRoot
+            - module: ethereumRelayAuthorities
+              method: ScheduleAuthoritiesChange
+            - module: ethereumRelayAuthorities
+              method: AuthoritiesChangeSigned
+        - handler: handleCall
+          kind: substrate/CallHandler
+
 network:
   endpoint: wss://pangolin-rpc.darwinia.network
 #  dictionary: https://api.subquery.network/sq/subquery/dictionary-polkadot
@@ -334,25 +356,3 @@ network:
                 confirmTime: BlockNumber
                 lockedCollateral: Balance
                 assignedRelayers: Vec<PriorRelayer>
-dataSources:
-  - name: main
-    kind: substrate/Runtime
-    startBlock: 1405750
-    mapping:
-      handlers:
-        - handler: handleBlock
-          kind: substrate/BlockHandler
-        - handler: handleEvent
-          kind: substrate/EventHandler
-          filter:
-            - module: ethereumRelayAuthorities
-              method: MMRRootSigned
-            - module: ethereumRelayAuthorities
-              method: ScheduleMMRRoot
-            - module: ethereumRelayAuthorities
-              method: ScheduleAuthoritiesChange
-            - module: ethereumRelayAuthorities
-              method: AuthoritiesChangeSigned
-
-        - handler: handleCall
-          kind: substrate/CallHandler

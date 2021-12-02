@@ -24,10 +24,9 @@ dataSources:
         - handler: handleCall
           kind: substrate/CallHandler
 
-network:
-  endpoint: wss://pangolin-rpc.darwinia.network
-#  dictionary: https://api.subquery.network/sq/subquery/dictionary-polkadot
 
+network:
+  endpoint: wss://pangolin-rpc.darwinia.network/
   types:
     AccountData:
       feeFrozen: Balance
@@ -181,9 +180,10 @@ network:
     Order:
       lane: LaneId
       message: MessageNonce
-      sent_time: BlockNumber
-      confirm_time: BlockNumber
-      assigned_relayers: Vec<PriorRelayer>
+      sentTime: BlockNumber
+      confirmTime: BlockNumber
+      lockedCollateral: Balance
+      assignedRelayers: Vec<PriorRelayer>
     OtherAddress:
       _enum:
         Eth: EthereumAddress
@@ -315,44 +315,3 @@ network:
     UsableBalance:
       usableBalance: Balance
     ValidatorPrefs: ValidatorPrefsWithBlocked
-  typesBundle:
-    spec:
-      Darwinia:
-        types:
-          - minmax:
-              - 0
-              - 2690
-            types:
-              TokenInfo:
-                address: H160
-                value: Option<U256>
-                option: Option<TokenOption>
-              Token:
-                _enum:
-                  InvalidToken: null
-                  Native: TokenInfo
-                  Erc20: TokenInfo
-              TokenOption:
-                name: Vec<u8>
-                symbol: Vec<u8>
-                decimal: u8
-          - minmax:
-              - 2690
-              - 26100
-            types:
-              TokenMetadata:
-                tokenType: u32
-                address: H160
-                name: Vec<u8>
-                symbol: Vec<u8>
-                decimal: u8
-          - minmax:
-              - 26100
-            types:
-              Order:
-                lane: LaneId
-                message: MessageNonce
-                sentTime: BlockNumber
-                confirmTime: BlockNumber
-                lockedCollateral: Balance
-                assignedRelayers: Vec<PriorRelayer>

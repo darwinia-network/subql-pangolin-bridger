@@ -44,6 +44,7 @@ type ScheduleMMRRootEvent @entity {
 type ScheduleAuthoritiesChangeEvent @entity {
   id: ID!
 
+  atBlockNumber: Int!
   message: String!
 
   timestamp: Date
@@ -53,6 +54,7 @@ type AuthoritiesChangeSignedEvent @entity {
   id: ID!
 
   term: Int!
+  atBlockNumber: Int!
   newAuthorities: [String]!
   signatures: [Signature]! @derivedFrom(field: "eventAuthoritiesChangeSigned")
 

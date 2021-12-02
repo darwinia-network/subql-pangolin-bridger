@@ -71,6 +71,7 @@ export async function storeScheduleAuthoritiesChange(event: FastEvent) {
   const data = event.data;
 
   const _event = new ScheduleAuthoritiesChangeEvent(event.id);
+  _event.atBlockNumber = event.blockNumber;
   _event.message = data[0].toString();
 
   _event.timestamp = event.timestamp;
@@ -86,6 +87,7 @@ export async function storeAuthoritiesChangeSigned(event: FastEvent) {
 
 
   const _event = new AuthoritiesChangeSignedEvent(event.id);
+  _event.atBlockNumber = event.blockNumber;
   _event.term = term;
   _event.newAuthorities = newAuthorities;
 

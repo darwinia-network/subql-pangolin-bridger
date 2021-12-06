@@ -53,15 +53,19 @@ export async function storeMMRRootSignedEvent(event: FastEvent) {
     ix += 1;
   }
 
+  const schedule_mmr_root_event = await ScheduleMMRRootEvent.get(eventBlockNumber);
+  schedule_mmr_root_event.emitted = 1;
+  await schedule_mmr_root_event.save();
 }
 
 export async function storeScheduleMMRRootEvent(event: FastEvent) {
   const data = event.data;
   const eventBlockNumber = data[0].toString();
 
-  const _event = new ScheduleMMRRootEvent(event.id);
+  const _event = new ScheduleMMRRootEvent(eventBlockNumber);
   _event.atBlockNumber = event.blockNumber;
   _event.eventBlockNumber = Number(eventBlockNumber);
+  _event.emitted = 0;
 
   _event.timestamp = event.timestamp;
   await _event.save();
